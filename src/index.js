@@ -9,9 +9,12 @@ import './index.scss';
 
 import { App } from './components/App';
 import { main } from './reducers';
+import { initializeState } from './initialize';
 import * as serviceWorker from './serviceWorker';
 
 const store = createStore(main);
+
+initializeState(store);
 
 ReactDOM.render(
   <Provider store={store}>

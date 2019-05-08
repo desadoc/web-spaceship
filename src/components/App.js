@@ -9,10 +9,16 @@ import './App.scss';
 
 class _App extends React.Component {
   render() {
+    const itemsEl = this.props.items.map(
+      item => <p>{item.title}</p>
+    );
+
     return (
       <Router>
         <div className="App">
-          <h1>{this.props.message}</h1>
+          <h1>Hello</h1>
+
+          {itemsEl}
 
           <div className="App__links">
             <Link to="/">Home</Link>
@@ -27,7 +33,9 @@ class _App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ( { message: 'Hello!~' } );
+const mapStateToProps = (state) => (
+  { items:  Object.keys(state.game.itemsById).map(key => state.game.itemsById[key]) }
+);
 const mapDispatchToProps = (dispatch) => ( {} );
 
 export const App = connect(
