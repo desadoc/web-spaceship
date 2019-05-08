@@ -1,12 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      Hello
-    </div>
-  );
+class _App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        Hello
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ( {} );
+const mapDispatchToProps = (dispatch) => ( {} );
+
+export const App = connect(
+  mapStateToProps, mapDispatchToProps
+)(_App);
