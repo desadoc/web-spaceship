@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import './App.css';
+import './App.scss';
 
 class _App extends React.Component {
   render() {
     return (
       <div className="App">
-        Hello
+        <h1>Hello</h1>
       </div>
     );
   }
