@@ -1,19 +1,17 @@
 
-import { State } from '../model/State';
+import { GameState } from '../models/GameState';
+import { gameService } from '../services/GameService';
+
 import { ADD_NEW_ITEM } from '../actions';
 
-export function main(state, action) {
-    let newState;
-
-    if (!state) {
-      newState = new State();
-    } else {
-      newState = state.copy();
-    }
+export function main(gameState, action) {
+    let newGameState = gameState ? gameState.copy() : new GameState();
 
     if (action.type === ADD_NEW_ITEM) {
-      newState.game.addItem(action.data);
+      newGameState.addItem({
+      ...action.item, id: gameService().generateId(gameState)
+      });
     }
 
-    return newState;
+    return newGameState;
 }

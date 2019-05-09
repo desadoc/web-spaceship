@@ -7,18 +7,17 @@ import { Provider } from 'react-redux';
 import './reset.css';
 import './index.scss';
 
-import { App } from './components/App';
+import { Game } from './components/Game';
 import { main } from './reducers';
-import { initializeState } from './initialize';
 import * as serviceWorker from './serviceWorker';
+import { gameService } from './services/GameService';
 
 const store = createStore(main);
-
-initializeState(store);
+gameService().init((action) => store.dispatch(action));
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Game />
   </Provider>,
   document.getElementById('root'),
 );
