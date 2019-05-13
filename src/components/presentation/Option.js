@@ -9,6 +9,7 @@ export class Option extends React.Component {
 
     return (
       <div className={classes}>
+        <span className="Option__title">{this.props.title}. </span>
         {this.props.children}
       </div>
     );

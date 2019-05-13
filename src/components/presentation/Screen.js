@@ -11,8 +11,8 @@ export class Screen extends React.Component {
 
     return (
       <div className={classes}>
-        <Title className="Screen__Title" value={this.props.title} />
-        <div className="Screen__Options">
+        <Title className="Screen__title" value={this.props.title} />
+        <div className="Screen__options">
           {this.props.children}
         </div>
       </div>

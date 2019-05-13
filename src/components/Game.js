@@ -14,7 +14,9 @@ class _Game extends React.Component {
       <Router>
         <div className="Game">
           <Screen title={this.props.title}>
-            <EmergencyOption />
+            <ol>
+              <li><EmergencyOption /></li>
+            </ol>
           </Screen>
         </div>
       </Router>

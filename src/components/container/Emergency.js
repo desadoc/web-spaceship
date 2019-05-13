@@ -7,7 +7,9 @@ class _EmergencyOption extends React.Component {
   render() {
     return (
       <div className="EmergencyOption">
-        <Option>{this.props.title}</Option>
+        <Option title={this.props.title}>
+          One or more systems need urgent action.
+        </Option>
       </div>
     );
   }
