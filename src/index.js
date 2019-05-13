@@ -13,7 +13,6 @@ import * as serviceWorker from './serviceWorker';
 import { gameService } from './services/GameService';
 
 const store = createStore(main);
-gameService().init((action) => store.dispatch(action));
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,17 +1,14 @@
 
-import { GameState } from '../models/GameState';
-import { gameService } from '../services/GameService';
+import * as _ from 'lodash';
 
-import { ADD_NEW_ITEM } from '../actions';
+import { initialState } from './initial-state';
 
 export function main(gameState, action) {
-    let newGameState = gameState ? gameState.copy() : new GameState();
+  if (!gameState) {
+    gameState = initialState;
+  } else {
+    gameState = _.cloneDeep(gameState);
+  }
 
-    if (action.type === ADD_NEW_ITEM) {
-      newGameState.addItem({
-      ...action.item, id: gameService().generateId(gameState)
-      });
-    }
-
-    return newGameState;
+  return gameState;
 }
