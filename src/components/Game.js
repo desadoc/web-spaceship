@@ -1,11 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './Game.scss';
 
-import { Screen } from './presentation/Screen';
-import { EmergencyOption } from './container/Emergency';
+import { RootScreen } from './container/Root';
+import { EmergencyScreen } from './container/Emergency';
 
 
 class _Game extends React.Component {
@@ -13,11 +13,8 @@ class _Game extends React.Component {
     return (
       <Router>
         <div className="Game">
-          <Screen title={this.props.title}>
-            <ol>
-              <li><EmergencyOption /></li>
-            </ol>
-          </Screen>
+          <Route path="/" exact component={RootScreen} />
+          <Route path="/emergency" component={EmergencyScreen} />
         </div>
       </Router>
     );

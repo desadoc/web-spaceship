@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import { Option } from '../presentation/Option';
@@ -8,8 +9,18 @@ class _EmergencyOption extends React.Component {
     return (
       <div className="EmergencyOption">
         <Option title={this.props.title}>
-          One or more systems need urgent action.
+          One or more systems need urgent action. <Link to="/emergency">Details...</Link>
         </Option>
+      </div>
+    );
+  }
+}
+
+class _EmergencyScreen extends React.Component {
+  render() {
+    return (
+      <div className="EmergencyScreen">
+        Emergency Screen
       </div>
     );
   }
@@ -32,3 +43,7 @@ const mapDispatchToProps = (dispatch) => {
 export const EmergencyOption = connect(
   mapStateToProps, mapDispatchToProps
 )(_EmergencyOption);
+
+export const EmergencyScreen = connect(
+  mapStateToProps, mapDispatchToProps
+)(_EmergencyScreen);
