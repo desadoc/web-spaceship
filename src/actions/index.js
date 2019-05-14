@@ -1,8 +1,15 @@
 
-export const ADD_NEW_ITEM = 'ADD_NEW_ITEM';
+export const LOADING_START  = 'LOADING_START';
+export const LOADING_END    = 'LOADING_END';
 
-export function addNewItem(item) {
+export function loadingStart(name, duration) {
   return {
-    type: ADD_NEW_ITEM, item
+    type: LOADING_START, name, duration
+  }
+}
+
+export function loadingEnd(name) {
+  return {
+    type: LOADING_END, name
   }
 }

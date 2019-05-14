@@ -1,12 +1,25 @@
 
 export const initialState = {
   systems: {
-    title: 'Hello, Administrator.',
     byName: {
+      root: {
+        name: 'root',
+        title: 'Hello, Administrator.',
+      },
       emergency: {
         name: 'emergency',
         title: 'Emergency',
       },
     }
   },
+  uiState: {
+    byName: {
+      root: {
+        loading: false,
+      },
+      emergency: {
+        loading: false,
+      },
+    }
+  }
 };

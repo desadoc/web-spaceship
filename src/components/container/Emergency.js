@@ -2,7 +2,11 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
+import { loadingStart } from '../../actions';
+
+import { Screen } from '../presentation/Screen';
 import { Option } from '../presentation/Option';
+import { LoadingGuard } from '../presentation/LoadingGuard';
 
 class _EmergencyOption extends React.Component {
   render() {
@@ -17,27 +21,40 @@ class _EmergencyOption extends React.Component {
 }
 
 class _EmergencyScreen extends React.Component {
+  componentDidMount() {
+    this.props.loadingStart();
+  }
   render() {
     return (
-      <div className="EmergencyScreen">
-        Emergency Screen
-      </div>
+      <LoadingGuard enabled={this.props.loading}>
+        <div className="EmergencyScreen">
+          <Screen title={this.props.title}>
+            <ol>
+              <li>Emergency Screen</li>
+            </ol>
+          </Screen>
+        </div>
+      </LoadingGuard>
     );
   }
 }
 
 const mapStateToProps = (gameState) => {
   const state = gameState.systems.byName.emergency;
+  const uiState = gameState.uiState.byName.emergency;
 
   return {
-    state,
+    state, uiState,
     name: state.name,
     title: state.title,
+    loading: uiState.loading,
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    loadingStart: () => dispatch(loadingStart('emergency', 500)),
+  };
 }
 
 export const EmergencyOption = connect(
