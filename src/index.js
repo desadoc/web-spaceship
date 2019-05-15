@@ -11,12 +11,12 @@ import './index.scss';
 
 import { Game } from './components/Game';
 import { main } from './reducers';
-import { mySaga } from './reducers/sagas';
+import { mainSaga } from './reducers/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(main, applyMiddleware(sagaMiddleware));
 
-sagaMiddleware.run(mySaga);
+sagaMiddleware.run(mainSaga);
 
 ReactDOM.render(
   <Provider store={store}>

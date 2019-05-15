@@ -1,21 +1,13 @@
 
 import produce from 'immer';
-import * as _ from 'lodash';
-
-import {
-  LOADING_START, LOADING_END,
-} from '../actions';
 
 import { initialState } from './initial-state';
+import { basic } from './basic';
+import { emergency } from './emergency';
 
 function _main(gameState, action) {
-  if (action.type === LOADING_START) {
-    gameState.uiState.byName[action.name].loading = true;
-  }
-
-  if (action.type === LOADING_END) {
-    gameState.uiState.byName[action.name].loading = false;
-  }
+  basic(gameState, action);
+  emergency(gameState, action);
 }
 
 export const main = (gameState, action) =>
