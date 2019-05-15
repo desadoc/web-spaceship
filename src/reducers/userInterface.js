@@ -3,7 +3,7 @@ import {
   LOADING_START, LOADING_END,
 } from '../actions';
 
-export function basic(gameState, action) {
+export function userInterface(gameState, action) {
   if (action.type === LOADING_START) {
     gameState.uiState.byName[action.name].loading = true;
   }

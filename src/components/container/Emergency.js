@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import { systemsService } from '../../services/Systems';
+
 import { loadingStart } from '../../actions';
 
 import { Screen } from '../presentation/Screen';
@@ -42,20 +43,16 @@ class _EmergencyScreen extends React.Component {
     );
   }
   coreSystemsRepair() {
-    const emergencyService = this.props.systems.emergency;
-
-    emergencyService.coreSystemsRepairProgress(this.props.state);
+    const progress = this.props.coreSystemsRepairProgress;
 
     const coreSystemsRepairDetail =
-      this.props.state.coreSystemsRepairProgress != null ?
+      progress != null ?
       <span>
-        Trying to nano repair basic systems, please wait... {
-          this.props.state.coreSystemsRepairProgress
-        }%
+        Trying to nano repair basic systems, please wait... {progress}%
       </span> :
       <span>
-        It may take a while. <Action onClick={() => emergencyService.coreSystemsRepairStart()}
-          disabled={!emergencyService.isNeedsCoreSystemsRepair()}
+        It may take a while. <Action onClick={this.props.coreSystemsRepairStart}
+          disabled={!this.props.isNeedsCoreSystemsRepair}
         >
           Execute...
         </Action>
@@ -74,17 +71,19 @@ const mapStateToProps = (gameState) => {
   const uiState = gameState.uiState.byName.emergency;
 
   return {
-    state, uiState,
     name: state.name,
     title: state.title,
     loading: uiState.loading,
+
+    isNeedsCoreSystemsRepair: systemsService().emergency.isNeedsCoreSystemsRepair(gameState),
+    coreSystemsRepairProgress: state.coreSystemsRepairProgress,
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadingStart: () => dispatch(loadingStart('emergency', 500)),
-    systems: systemsService(dispatch),
+    coreSystemsRepairStart: () => dispatch(systemsService().emergency.coreSystemsRepairStart()),
   };
 }
 

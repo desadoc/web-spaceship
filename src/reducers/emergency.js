@@ -13,7 +13,11 @@ export function emergency(gameState, action) {
   }
 
   if (action.type === CORE_SYSTEMS_REPAIR_PROGRESS) {
-    state.coreSystemsRepairProgress += action.progress;
+    state.coreSystemsRepairProgress = action.progress;
+
+    if (state.coreSystemsRepairProgress > 100) {
+      state.coreSystemsRepairProgress = 100
+    }
   }
 
   if (action.type === CORE_SYSTEMS_REPAIR_END) {

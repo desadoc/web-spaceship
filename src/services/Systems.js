@@ -2,11 +2,11 @@
 import { EmergencyService } from './Emergency';
 
 export class SystemsService {
-  constructor(dispatch) {
-    this.emergency = new EmergencyService(dispatch);
+  constructor() {
+    this.emergency = new EmergencyService();
   }
 }
 
-export function systemsService(dispatch) {
-  return new SystemsService(dispatch);
+export function systemsService() {
+  return new SystemsService();
 }

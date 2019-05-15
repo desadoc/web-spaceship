@@ -1,29 +1,27 @@
 
 import {
   coreSystemsRepairStart,
+  coreSystemsRepairProgress,
   coreSystemsRepairEnd,
 } from '../actions';
 
 export class EmergencyService {
-  constructor(dispatch) {
-    this.dispatch = dispatch;
-  }
 
   coreSystemsRepairStart() {
-    this.dispatch(coreSystemsRepairStart());
+    return coreSystemsRepairStart();
   }
 
-  coreSystemsRepairSpeed() {
-    return 1;
-  }
+  coreSystemsRepairProgress(state, elapsedTime) {
+    const emergencyState = state.systems.byName.emergency;
 
-  coreSystemsRepairProgress(emergencyState) {
     if (emergencyState.coreSystemsRepairProgress >= 100) {
-      this.dispatch(coreSystemsRepairEnd());
+      return coreSystemsRepairEnd();
     }
+
+    return coreSystemsRepairProgress(elapsedTime/100);
   }
 
-  isNeedsCoreSystemsRepair() {
+  isNeedsCoreSystemsRepair(gameState) {
     return true;
   }
 }
