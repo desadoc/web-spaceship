@@ -33,6 +33,8 @@ export class UserInterfaceService {
   }
 }
 
+const instance = new UserInterfaceService();
+
 export function userInterfaceService() {
-  return new UserInterfaceService();
+  return instance;
 }

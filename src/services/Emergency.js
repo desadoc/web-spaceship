@@ -1,47 +1,54 @@
 
-import { all, take, call, fork, cancel, put, select } from 'redux-saga/effects';
-
-import { timeout } from '../utils/timeout';
+import { call, put, takeEvery } from 'redux-saga/effects';
 
 import {
+  GAME_UPDATE,
   CORE_SYSTEMS_REPAIR_START,
-  CORE_SYSTEMS_REPAIR_PROGRESS,
   CORE_SYSTEMS_REPAIR_END,
 } from '../actions';
 
 import {
   coreSystemsRepairStart,
-  coreSystemsRepairProgress,
   coreSystemsRepairEnd,
 } from '../actions';
 
+function waitCondition(owner, condition) {
+  return new Promise(resolve => {
+    const conditionWrapper = (systemsState) => {
+      if (condition(systemsState)) {
+        resolve();
+      }
+    };
+  
+    owner.addCondition(conditionWrapper);
+  });
+}
+
 export class EmergencyService {
+  constructor() {
+    this.conditions = [];
+  }
+
+  addCondition(condition) {
+    this.conditions.push(condition);
+  }
+
+  processConditions(systemsState) {
+    const toKeep = [];
+
+    for (var i=0; i<this.conditions.length; i++) {
+      const condition = this.conditions[i];
+
+      if (!condition(systemsState)) {
+        toKeep.push(condition);
+      }
+    }
+
+    this.conditions = toKeep;
+  }
 
   *main() {
-    yield all([
-      this.coreSystemsRepair(),
-    ]);
-  }
-
-  *coreSystemsRepair() {
-    while (true) {
-      yield take(CORE_SYSTEMS_REPAIR_START);
-      const coreSystemsRepairProgressTask = yield fork([this, this.doCoreSystemsRepairProgress]);
-      yield take(CORE_SYSTEMS_REPAIR_END);
-      yield cancel(coreSystemsRepairProgressTask);
-    }
-  }
-
-  *doCoreSystemsRepairProgress() {
-    let elapsedTime = 0;
-  
-    while (true) {
-      yield call(timeout, 500);
-      elapsedTime += 500;
-  
-      const state = yield select();
-      yield put(this.coreSystemsRepairProgress(state, elapsedTime));
-    }
+    yield takeEvery(CORE_SYSTEMS_REPAIR_START, [this, this.coreSystemsRepair]);
   }
 
   reducer(systemsState, action) {
@@ -51,16 +58,20 @@ export class EmergencyService {
       state.coreSystemsRepairProgress = 0;
     }
   
-    if (action.type === CORE_SYSTEMS_REPAIR_PROGRESS) {
-      state.coreSystemsRepairProgress = action.progress;
-  
-      if (state.coreSystemsRepairProgress > 100) {
-        state.coreSystemsRepairProgress = 100
-      }
-    }
-  
     if (action.type === CORE_SYSTEMS_REPAIR_END) {
       state.coreSystemsRepairProgress = null;
+    }
+
+    if (action.type === GAME_UPDATE) {
+      if (state.coreSystemsRepairProgress != null) {
+        state.coreSystemsRepairProgress += 10;
+
+        if (state.coreSystemsRepairProgress > 100) {
+          state.coreSystemsRepairProgress = 100
+        }
+      }
+
+      this.processConditions(systemsState);
     }
   }
 
@@ -68,14 +79,12 @@ export class EmergencyService {
     return coreSystemsRepairStart();
   }
 
-  coreSystemsRepairProgress(state, elapsedTime) {
-    const emergencyState = state.systems.byName.emergency;
+  *coreSystemsRepair() {
+    const endCondition =
+      (systemsState) => systemsState.byName.emergency.coreSystemsRepairProgress >= 100;
 
-    if (emergencyState.coreSystemsRepairProgress >= 100) {
-      return coreSystemsRepairEnd();
-    }
-
-    return coreSystemsRepairProgress(elapsedTime/100);
+    yield call(waitCondition, this, endCondition);
+    yield put(coreSystemsRepairEnd());
   }
 
   isNeedsCoreSystemsRepair(gameState) {

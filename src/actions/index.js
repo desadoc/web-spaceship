@@ -1,4 +1,8 @@
 
+// Game
+export const GAME_UPDATE = 'GAME_UPDATE';
+
+// User Interface
 export const LOADING_START = 'LOADING_START';
 export const LOADING_END = 'LOADING_END';
 
@@ -6,6 +10,12 @@ export const LOADING_END = 'LOADING_END';
 export const CORE_SYSTEMS_REPAIR_START = 'CORE_SYSTEMS_REPAIR_START';
 export const CORE_SYSTEMS_REPAIR_PROGRESS = 'CORE_SYSTEMS_REPAIR_PROGRESS';
 export const CORE_SYSTEMS_REPAIR_END = 'CORE_SYSTEMS_REPAIR_END';
+
+export function gameUpdate() {
+  return {
+    type: GAME_UPDATE,
+  }
+}
 
 export function loadingStart(name, duration) {
   return {
