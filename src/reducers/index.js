@@ -2,12 +2,12 @@
 import produce from 'immer';
 
 import { initialState } from './initial-state';
-import { userInterface } from './userInterface';
-import { emergency } from './emergency';
+import { userInterfaceService } from '../services/UserInterface';
+import { systemsService } from '../services/Systems';
 
 function _main(gameState, action) {
-  userInterface(gameState, action);
-  emergency(gameState, action);
+  userInterfaceService().reducer(gameState.uiState, action);
+  systemsService().reducer(gameState.systems, action);
 }
 
 export const main = (gameState, action) =>
