@@ -1,5 +1,7 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects';
+import { match } from '../reducers';
+import { BaseService, waitCondition } from './Base';
 
 import {
   GAME_UPDATE,
@@ -12,39 +14,9 @@ import {
   coreSystemsRepairEnd,
 } from '../actions';
 
-function waitCondition(owner, condition) {
-  return new Promise(resolve => {
-    const conditionWrapper = (systemsState) => {
-      if (condition(systemsState)) {
-        resolve();
-      }
-    };
-  
-    owner.addCondition(conditionWrapper);
-  });
-}
-
 export class EmergencyService {
   constructor() {
-    this.conditions = [];
-  }
-
-  addCondition(condition) {
-    this.conditions.push(condition);
-  }
-
-  processConditions(systemsState) {
-    const toKeep = [];
-
-    for (var i=0; i<this.conditions.length; i++) {
-      const condition = this.conditions[i];
-
-      if (!condition(systemsState)) {
-        toKeep.push(condition);
-      }
-    }
-
-    this.conditions = toKeep;
+    this.base = new BaseService();
   }
 
   *main() {
@@ -54,25 +26,41 @@ export class EmergencyService {
   reducer(systemsState, action) {
     const state = systemsState.byName.emergency;
 
-    if (action.type === CORE_SYSTEMS_REPAIR_START) {
-      state.coreSystemsRepairProgress = 0;
-    }
-  
-    if (action.type === CORE_SYSTEMS_REPAIR_END) {
-      state.coreSystemsRepairProgress = null;
-    }
+    match(action, CORE_SYSTEMS_REPAIR_START,
+      () => this.coreSystemsRepairStartReducer(state, action)
+    );
+    match(action, CORE_SYSTEMS_REPAIR_END,
+      () => this.coreSystemsRepairEndReducer(state, action)
+    );
+    match(action, GAME_UPDATE,
+      () => this.updateReducer(systemsState, action)
+    );
+  }
 
-    if (action.type === GAME_UPDATE) {
-      if (state.coreSystemsRepairProgress != null) {
-        state.coreSystemsRepairProgress += 10;
+  updateReducer(systemsState, action) {
+    const state = systemsState.byName.emergency;
 
-        if (state.coreSystemsRepairProgress > 100) {
-          state.coreSystemsRepairProgress = 100
-        }
+    if (state.coreSystemsRepairProgress != null) {
+      state.coreSystemsRepairProgress += 10;
+
+      if (state.coreSystemsRepairProgress > 100) {
+        state.coreSystemsRepairProgress = 100
       }
-
-      this.processConditions(systemsState);
     }
+
+    this.base.processConditions(systemsState);
+  }
+
+  coreSystemsRepairStartReducer(emergencyState, action) {
+    emergencyState.coreSystemsRepairProgress = 0;
+  }
+
+  coreSystemsRepairEndReducer(emergencyState, action) {
+    emergencyState.coreSystemsRepairProgress = null;
+  }
+
+  isNeedsCoreSystemsRepair(gameState) {
+    return true;
   }
 
   coreSystemsRepairStart() {
@@ -83,11 +71,7 @@ export class EmergencyService {
     const endCondition =
       (systemsState) => systemsState.byName.emergency.coreSystemsRepairProgress >= 100;
 
-    yield call(waitCondition, this, endCondition);
+    yield call(waitCondition, this.base, endCondition);
     yield put(coreSystemsRepairEnd());
-  }
-
-  isNeedsCoreSystemsRepair(gameState) {
-    return true;
   }
 }

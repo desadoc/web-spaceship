@@ -13,4 +13,6 @@ function _main(gameState, action) {
 export const main = (gameState, action) =>
   produce(gameState || initialState, (draft) => _main(draft, action));
 
+export const match = (action, type, f) => (action.type === type) && f();
+
 export * from './sagas';
