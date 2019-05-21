@@ -9,7 +9,7 @@ export class Action extends React.Component {
 
     return (
       <span className={classes}>
-        <a href="#" onClick={(e) => this.handleClick(e)}>{this.props.children}</a>
+        <span className="Action__link" onClick={(e) => this.handleClick(e)}>{this.props.children}</span>
       </span>
     );
   }
