@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadingStart } from '../../actions';
+import { userInterfaceService } from '../../services/UserInterface';
 
 import { Screen } from '../presentation/Screen';
 import { EmergencyOption } from './Emergency';
@@ -35,7 +35,7 @@ const mapStateToProps = (gameState) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadingStart: () => dispatch(loadingStart('root', 500)),
+    loadingStart: () => dispatch(userInterfaceService().loadingStart('root')),
   };
 }
 

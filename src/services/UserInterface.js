@@ -3,7 +3,7 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { timeout } from '../utils/timeout';
 
 import {
-  LOADING_START, LOADING_END, loadingEnd,
+  LOADING_START, LOADING_END, loadingStart, loadingEnd,
 } from '../actions';
 
 export class UserInterfaceService {
@@ -14,12 +14,12 @@ export class UserInterfaceService {
   }
 
   *loading() {
-    yield takeEvery(LOADING_START, this.doLoading);
+    yield takeEvery(LOADING_START, [this, this.doLoading]);
   }
 
   *doLoading(action) {  
-    yield call(timeout, action.duration);
-    yield put(loadingEnd(action.name));
+    yield call(timeout, 500);
+    yield put(this.loadingEnd(action.name));
   }
   
   reducer(uiState, action) {
@@ -30,6 +30,14 @@ export class UserInterfaceService {
     if (action.type === LOADING_END) {
       uiState.byName[action.name].loading = false;
     }
+  }
+
+  loadingStart(systemName) {
+    return loadingStart(systemName);
+  }
+
+  loadingEnd(systemName) {
+    return loadingEnd(systemName);
   }
 }
 

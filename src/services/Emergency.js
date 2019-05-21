@@ -1,6 +1,7 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { match } from '../reducers';
+import { systemsService } from './Systems';
 import { BaseService, waitCondition } from './Base';
 
 import {
@@ -41,10 +42,10 @@ export class EmergencyService {
     const state = systemsState.byName.emergency;
 
     if (state.coreSystemsRepairProgress != null) {
-      state.coreSystemsRepairProgress += 10;
+      state.coreSystemsRepairProgress += 40;
 
       if (state.coreSystemsRepairProgress > 100) {
-        state.coreSystemsRepairProgress = 100
+        state.coreSystemsRepairProgress = 100;
       }
     }
 
@@ -73,5 +74,6 @@ export class EmergencyService {
 
     yield call(waitCondition, this.base, endCondition);
     yield put(coreSystemsRepairEnd());
+    yield put(systemsService().notifications.addNew('Emergency repairs of core systems finished.'));
   }
 }

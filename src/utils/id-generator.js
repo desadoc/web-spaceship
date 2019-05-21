@@ -6,7 +6,7 @@ function randomInt(max) {
 const charString = 'abcdefghijklmnopqrstuvwxyz0123456789';
 const charArray = charString.split('');
 
-export function generateId(testFunction) {
+export function idGenerator(testFunction) {
   while (true) {
     const value = [];
 
@@ -15,8 +15,8 @@ export function generateId(testFunction) {
     }
 
     const result = value.join('');
-    
-    if (testFunction(result)) {
+
+    if (!testFunction || testFunction(result)) {
       return result;
     }
   }

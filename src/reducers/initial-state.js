@@ -10,6 +10,10 @@ export const initialState = {
         name: 'emergency',
         title: 'Emergency',
       },
+      notifications: {
+        name: 'notifications',
+        items: [],        
+      }
     }
   },
   uiState: {

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import { systemsService } from '../../services/Systems';
-
-import { loadingStart } from '../../actions';
+import { userInterfaceService } from '../../services/UserInterface';
 
 import { Screen } from '../presentation/Screen';
 import { Option } from '../presentation/Option';
@@ -14,11 +13,11 @@ import { LoadingGuard } from '../presentation/LoadingGuard';
 class _EmergencyOption extends React.Component {
   render() {
     return (
-      <div className="EmergencyOption">
+      <span className="EmergencyOption">
         <Option title={this.props.title}>
           One or more systems need urgent action. <Link to="/emergency">Details...</Link>
         </Option>
-      </div>
+      </span>
     );
   }
 }
@@ -82,7 +81,7 @@ const mapStateToProps = (gameState) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadingStart: () => dispatch(loadingStart('emergency', 500)),
+    loadingStart: () => dispatch(userInterfaceService().loadingStart('emergency')),
     coreSystemsRepairStart: () => dispatch(systemsService().emergency.coreSystemsRepairStart()),
   };
 }
