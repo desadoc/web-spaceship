@@ -2,6 +2,13 @@
 // Game
 export const GAME_UPDATE = 'GAME_UPDATE';
 
+// Time
+export const WAIT_START = 'WAIT_START';
+export const WAIT_PAUSE = 'WAIT_PAUSE';
+
+// Clock
+export const ADVANCE_CLOCK_TIME = 'ADVANCE_CLOCK_TIME';
+
 // User Interface
 export const LOADING_START = 'LOADING_START';
 export const LOADING_END = 'LOADING_END';
@@ -18,6 +25,24 @@ export const DISMISS_NOTIFICATION = 'DISMISS_NOTIFICATION';
 export function gameUpdate() {
   return {
     type: GAME_UPDATE,
+  }
+}
+
+export function waitStart() {
+  return {
+    type: WAIT_START,
+  }
+}
+
+export function waitPause() {
+  return {
+    type: WAIT_PAUSE,
+  }
+}
+
+export function advanceClockTime(dt) {
+  return {
+    type: ADVANCE_CLOCK_TIME, dt,
   }
 }
 

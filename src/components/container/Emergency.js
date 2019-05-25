@@ -22,6 +22,18 @@ class _EmergencyOption extends React.Component {
   }
 }
 
+export const EmergencyOption = (() => {
+  const mapStateToProps = (gameState) =>({
+      title: gameState.systems.byName.emergency.title,
+  });
+  
+  const mapDispatchToProps = (dispatch) => ({});
+
+  return connect(
+    mapStateToProps, mapDispatchToProps
+  )(_EmergencyOption);
+})();
+
 class _EmergencyScreen extends React.Component {
   componentDidMount() {
     this.props.loadingStart();
@@ -34,7 +46,7 @@ class _EmergencyScreen extends React.Component {
         <div className="EmergencyScreen">
           <Screen title={this.props.title}>
             <ol>
-              <li>{coreSystemsRepair}</li>
+              <li key="coreSystemRepair">{coreSystemsRepair}</li>
             </ol>
           </Screen>
         </div>
@@ -65,31 +77,29 @@ class _EmergencyScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (gameState) => {
-  const state = gameState.systems.byName.emergency;
-  const uiState = gameState.uiState.byName.emergency;
+export const EmergencyScreen = (() => {
+  const mapStateToProps = (gameState) => {
+    const state = gameState.systems.byName.emergency;
+    const uiState = gameState.uiState.byName.emergency;
+  
+    return {
+      name: state.name,
+      title: state.title,
+      loading: uiState.loading,
+  
+      isNeedsCoreSystemsRepair: systemsService().emergency.isNeedsCoreSystemsRepair(gameState),
+      coreSystemsRepairProgress: state.coreSystemsRepairProgress,
+    };
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      loadingStart: () => dispatch(userInterfaceService().loadingStart('emergency')),
+      coreSystemsRepairStart: () => dispatch(systemsService().emergency.coreSystemsRepairStart()),
+    };
+  }
 
-  return {
-    name: state.name,
-    title: state.title,
-    loading: uiState.loading,
-
-    isNeedsCoreSystemsRepair: systemsService().emergency.isNeedsCoreSystemsRepair(gameState),
-    coreSystemsRepairProgress: state.coreSystemsRepairProgress,
-  };
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadingStart: () => dispatch(userInterfaceService().loadingStart('emergency')),
-    coreSystemsRepairStart: () => dispatch(systemsService().emergency.coreSystemsRepairStart()),
-  };
-}
-
-export const EmergencyOption = connect(
-  mapStateToProps, mapDispatchToProps
-)(_EmergencyOption);
-
-export const EmergencyScreen = connect(
-  mapStateToProps, mapDispatchToProps
-)(_EmergencyScreen);
+  return connect(
+    mapStateToProps, mapDispatchToProps
+  )(_EmergencyScreen);
+})();

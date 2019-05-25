@@ -6,20 +6,26 @@ import { match } from '../reducers';
 import { idGenerator } from '../utils/id-generator';
 import {
   GAME_UPDATE,
+  waitPause,
   ADD_NEW_NOTIFICATION, addNewNotification,
-  DISMISS_NOTIFICATION, dismissNotification
+  DISMISS_NOTIFICATION, dismissNotification,
 } from '../actions';
 
 export class NotificationsService {
   *main() {
     yield takeEvery(GAME_UPDATE, [this, this.update]);
+    yield takeEvery(ADD_NEW_NOTIFICATION, [this, this._pauseClock]);
   }
 
   *update() {
-    yield call([this, this.checkAge]);
+    yield call([this, this._checkAge]);
   }
 
-  *checkAge() {
+  *_pauseClock() {
+    yield put(waitPause());
+  }
+
+  *_checkAge() {
     const state = yield select();
     const items = state.systems.byName.notifications.items;
 

@@ -1,14 +1,14 @@
 
-import { all, call, put } from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
 import { timeout } from '../utils/timeout';
 
-import { gameUpdate } from '../actions';
-
+import { ClockService } from './Clock';
 import { EmergencyService } from './Emergency';
 import { NotificationsService } from './Notifications';
 
 export const STATUS = {
   // general
+  NORMAL: 'NORMAL',
   NEEDS_REPAIR: 'NEEDS_REPAIR',
   NO_ENERGY_CONNECTION: 'NO_ENERGY_CONNECTION',
   NO_ENERGY_SUPPLY: 'NO_ENERGY_SUPPLY',
@@ -19,28 +19,23 @@ export const STATUS = {
 
 export class SystemsService {
   constructor() {
+    this.clock = new ClockService();
     this.emergency = new EmergencyService();
     this.notifications = new NotificationsService();
   }
 
   *main() {
     yield all([
-      this.updateLoop(),
+      this.clock.main(),
       this.emergency.main(),
       this.notifications.main(),
     ]);
   }
   
   reducer(systemsState, action) {
+    this.clock.reducer(systemsState, action);
     this.emergency.reducer(systemsState, action);
     this.notifications.reducer(systemsState, action);
-  }
-
-  *updateLoop() {
-    while (true) {
-      yield call(timeout, 500);
-      yield put(gameUpdate());
-    }
   }
 }
 

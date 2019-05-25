@@ -1,4 +1,10 @@
 
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 html, body {
   font-size: 16px;
 }
@@ -31,4 +37,8 @@ ol {
 ul {
   list-style-type: disc;
   list-style-position: inside;
+}
+
+li {
+  padding: 0.2rem 0;
 }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { userInterfaceService } from '../../services/UserInterface';
 
 import { Screen } from '../presentation/Screen';
+import { ClockOption } from './Clock';
 import { EmergencyOption } from './Emergency';
 import { LoadingGuard } from '../presentation/LoadingGuard';
 
@@ -17,7 +18,8 @@ class _RootScreen extends React.Component {
         <div className="RootScreen">
           <Screen title={this.props.title}>
             <ol>
-              <li><EmergencyOption /></li>
+              <li key="clock"><ClockOption /></li>
+              <li key="emergency"><EmergencyOption /></li>
             </ol>
           </Screen>
         </div>

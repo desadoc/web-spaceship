@@ -6,6 +6,13 @@ export const initialState = {
         name: 'root',
         title: 'Hello, Administrator.',
       },
+      clock: {
+        name: 'clock',
+        title: 'Clock',
+        reference: null,
+        elapsedTime: 0,
+        isPaused: true,
+      },
       emergency: {
         name: 'emergency',
         title: 'Emergency',
