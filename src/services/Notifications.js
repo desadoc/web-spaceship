@@ -73,4 +73,16 @@ export class NotificationsService {
     systemsState.byName.notifications.items = 
       systemsState.byName.notifications.items.filter(item => item.id !== action.id);
   }
+
+  getTitle(systemsState) {
+    return "Notifications";
+  }
+
+  getDismissText(systemsState) {
+    return "Dismiss...";
+  }
+
+  getNoNewNotificationsText(systemsState) {
+    return "No new notifications.";
+  }
 }

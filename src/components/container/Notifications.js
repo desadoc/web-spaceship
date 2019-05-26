@@ -16,7 +16,7 @@ class _Notifications extends React.Component {
 
     return (
       <div className={classes}>
-        <div className="Notifications__title"><h5>Notifications:</h5></div>
+        <div className="Notifications__title"><h5>{this.props.title}:</h5></div>
         {notificationsEl}
       </div>
     )
@@ -25,7 +25,7 @@ class _Notifications extends React.Component {
   getNotifications() {
     const dismiss = (id) =>
     <Action onClick={() => this.props.dismiss(id)}>
-      Dismiss...
+      {this.props.dismissText}
     </Action>;
 
     const notificationItemsEl =
@@ -35,7 +35,7 @@ class _Notifications extends React.Component {
           {item.text} {dismiss(item.id)}
         </li>)
       ) :
-      <li>No new notifications.</li>;
+      <li>{this.props.noNewNotificationsText}</li>;
     
     return (
       <ul>
@@ -45,13 +45,13 @@ class _Notifications extends React.Component {
   }
 }
 
-const mapStateToProps = (gameState) => {
-  const notifications = systemsService().notifications.getDisplayList(gameState.systems);
+const mapStateToProps = (gameState) => ({
+  notifications: systemsService().notifications.getDisplayList(gameState.systems),
 
-  return {
-    notifications,
-  };
-}
+  title: systemsService().notifications.getTitle(gameState.systems),
+  dismissText: systemsService().notifications.getDismissText(gameState.systems),
+  noNewNotificationsText: systemsService().notifications.getNoNewNotificationsText(gameState.systems),
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {

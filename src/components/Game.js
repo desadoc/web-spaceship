@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import './Game.scss';
 
-import { RootScreen } from './container/Root';
-import { EmergencyScreen } from './container/Emergency';
+import { RootScreen } from './container/RootScreen';
+import { EmergencyScreen } from './container/Emergency/EmergencyScreen';
 
 
 class _Game extends React.Component {

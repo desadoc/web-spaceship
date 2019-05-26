@@ -13,8 +13,8 @@ class _ClockOption extends React.Component {
   render() {
     const action = 
       this.props.isPaused ?
-        <Action onClick={this.props.wait}>Wait...</Action> :
-        <Action onClick={this.props.pause}>Pause.</Action>;
+        <Action onClick={this.props.wait}>{this.props.waitText}</Action> :
+        <Action onClick={this.props.pause}>{this.props.pauseText}</Action>;
 
     return (
       <span className="ClockOption">
@@ -29,7 +29,10 @@ class _ClockOption extends React.Component {
 const mapStateToProps = (gameState) => ({
   title: gameState.systems.byName.clock.title,
   isPaused: gameState.systems.byName.clock.isPaused,
-  text: systemsService().clock.getTimeText(gameState.systems),
+
+  text: systemsService().clock.getText(gameState.systems),
+  waitText: systemsService().clock.getWaitText(gameState.systems),
+  pauseText: systemsService().clock.getPauseText(gameState.systems),
 });
 
 const mapDispatchToProps = (dispatch) => ({

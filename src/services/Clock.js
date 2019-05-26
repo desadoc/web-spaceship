@@ -14,15 +14,15 @@ import {
 
 export class ClockService {
   *main() {
-    yield takeEvery(GAME_UPDATE, [this, this.update]);
-    yield takeEvery(WAIT_START, [this, this.emitUpdateAction]);
+    yield takeEvery(GAME_UPDATE, [this, this._gameUpdateReducer]);
+    yield takeEvery(WAIT_START, [this, this._emitUpdateAction]);
   }
 
-  *update() {
+  *_gameUpdateReducer() {
     yield put(advanceClockTime(0.1));
   }
 
-  *emitUpdateAction() {
+  *_emitUpdateAction() {
     while (true) {
       const { result, cancel } = yield race({
         result: call(timeout, 1000),
@@ -55,7 +55,7 @@ export class ClockService {
     systemsState.byName.clock.elapsedTime += action.dt;
   }
 
-  getTimeText(systemsState) {
+  getText(systemsState) {
     const state = systemsState.byName.clock;
 
     if (!state.reference) {
@@ -65,5 +65,13 @@ export class ClockService {
       const value = Math.round((state.reference + state.elapsedTime)*10)/10;
       return `${value} years.`;
     }
+  }
+
+  getWaitText(systemsState) {
+    return "Wait...";
+  }
+
+  getPauseText(systemsState) {
+    return "Pause.";
   }
 }

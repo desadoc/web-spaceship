@@ -5,6 +5,7 @@ import { timeout } from '../utils/timeout';
 import { ClockService } from './Clock';
 import { EmergencyService } from './Emergency';
 import { NotificationsService } from './Notifications';
+import { Engineering } from './Engineering';
 
 export const STATUS = {
   // general
@@ -22,6 +23,7 @@ export class SystemsService {
     this.clock = new ClockService();
     this.emergency = new EmergencyService();
     this.notifications = new NotificationsService();
+    this.engineering = new Engineering();
   }
 
   *main() {
@@ -29,6 +31,7 @@ export class SystemsService {
       this.clock.main(),
       this.emergency.main(),
       this.notifications.main(),
+      this.engineering.main(),
     ]);
   }
   
@@ -36,6 +39,7 @@ export class SystemsService {
     this.clock.reducer(systemsState, action);
     this.emergency.reducer(systemsState, action);
     this.notifications.reducer(systemsState, action);
+    this.engineering.reducer(systemsState, action);
   }
 }
 
