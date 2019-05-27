@@ -6,7 +6,9 @@ import { userInterfaceService } from '../../../services/UserInterface';
 
 import { CoreSystemsRepairOption } from './CoreSystemsRepairOption';
 
-import { Screen } from '../../presentation/Screen';
+import {
+  Screen, ScreenTitle, ScreenNotifications, ScreenItems, ScreenFooter
+} from '../../presentation/Screen';
 import { LoadingGuard } from '../../presentation/LoadingGuard';
 
 class _EmergencyScreen extends React.Component {
@@ -15,13 +17,23 @@ class _EmergencyScreen extends React.Component {
   }
 
   render() {
+    const navOptions = [
+      ['Home', '/'],
+    ];
+
     return (
       <LoadingGuard enabled={this.props.loading}>
         <div className="EmergencyScreen">
-          <Screen title={this.props.title}>
-            <ol>
-              <li key="coreSystemRepair"><CoreSystemsRepairOption /></li>
-            </ol>
+          <Screen>
+            <ScreenTitle>{this.props.title}</ScreenTitle>
+
+            <ScreenItems>
+              <ol>
+                <li key="coreSystemRepair"><CoreSystemsRepairOption /></li>
+              </ol>
+            </ScreenItems>
+
+            <ScreenFooter nav={navOptions} />
           </Screen>
         </div>
       </LoadingGuard>
@@ -36,15 +48,13 @@ const mapStateToProps = (gameState) => {
   return {
     name: state.name,
     title: state.title,
-    loading: uiState.loading,
+    loading: userInterfaceService().isLoading(gameState.uiState, 'emergency'),
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadingStart: () => dispatch(userInterfaceService().loadingStart('emergency')),
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  loadingStart: () => dispatch(userInterfaceService().loadingStart('emergency')),
+});
 
 export const EmergencyScreen = connect(
   mapStateToProps, mapDispatchToProps

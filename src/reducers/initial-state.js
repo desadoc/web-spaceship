@@ -47,6 +47,15 @@ export const initialState = {
       },
       status: {
         loading: false,
+      },
+      engineering: {
+        loading: false,
+      },
+      energyProduction: {
+        loading: false,
+      },
+      status: {
+        loading: false,
       }
     }
   }

@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 
 import { userInterfaceService } from '../../services/UserInterface';
 
-import { Screen } from '../presentation/Screen';
+import {
+  Screen, ScreenTitle, ScreenNotifications, ScreenItems, ScreenFooter
+} from '../presentation/Screen';
 import { ClockOption } from './ClockOption';
 import { StatusOption } from './Status/StatusOption';
 import { EmergencyOption } from './Emergency/EmergencyOption';
@@ -14,17 +16,23 @@ class _RootScreen extends React.Component {
   componentDidMount() {
     this.props.loadingStart();
   }
+
   render() {
     return (
       <LoadingGuard enabled={this.props.loading}>
         <div className="RootScreen">
-          <Screen title={this.props.title}>
-            <ol>
-              <li key="clock"><ClockOption /></li>
-              <li key="status"><StatusOption /></li>
-              <li key="emergency"><EmergencyOption /></li>
-              <li key="engineering"><EngineeringOption /></li>
-            </ol>
+          <Screen>
+            <ScreenTitle>{this.props.title}</ScreenTitle>
+            <ScreenNotifications />
+
+            <ScreenItems>
+              <ol>
+                <li key="clock"><ClockOption /></li>
+                <li key="status"><StatusOption /></li>
+                <li key="emergency"><EmergencyOption /></li>
+                <li key="engineering"><EngineeringOption /></li>
+              </ol>
+            </ScreenItems>
           </Screen>
         </div>
       </LoadingGuard>
@@ -35,15 +43,13 @@ class _RootScreen extends React.Component {
 const mapStateToProps = (gameState) => {
   return {
     title: gameState.systems.byName.root.title,
-    loading: gameState.uiState.byName.root.loading,
+    loading: userInterfaceService().isLoading(gameState.uiState, 'root'),
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadingStart: () => dispatch(userInterfaceService().loadingStart('root')),
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  loadingStart: () => dispatch(userInterfaceService().loadingStart('root')),
+});
 
 export const RootScreen = connect(
   mapStateToProps, mapDispatchToProps

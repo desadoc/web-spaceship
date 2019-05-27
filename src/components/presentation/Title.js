@@ -10,7 +10,7 @@ export class Title extends React.Component {
     return (
       <div className={classes}>
         <header>
-          <h1>{this.props.value}</h1>
+          <h1>{this.props.children}</h1>
         </header>
       </div>
     );

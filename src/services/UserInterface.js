@@ -39,6 +39,10 @@ export class UserInterfaceService {
   loadingEnd(systemName) {
     return loadingEnd(systemName);
   }
+
+  isLoading(uiState, systemName) {
+    return uiState.byName[systemName].loading;
+  }
 }
 
 const instance = new UserInterfaceService();
