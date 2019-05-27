@@ -18,6 +18,9 @@ export const CORE_SYSTEMS_REPAIR_START = 'CORE_SYSTEMS_REPAIR_START';
 export const CORE_SYSTEMS_REPAIR_PROGRESS = 'CORE_SYSTEMS_REPAIR_PROGRESS';
 export const CORE_SYSTEMS_REPAIR_END = 'CORE_SYSTEMS_REPAIR_END';
 
+// Energy Production
+export const ENERGY_PRODUCTION_AUXILIAR_REPAIRED = 'ENERGY_PRODUCTION_AUXILIAR_REPAIRED';
+
 // Notifications
 export const ADD_NEW_NOTIFICATION = 'ADD_NEW_NOTIFICATION';
 export const DISMISS_NOTIFICATION = 'DISMISS_NOTIFICATION';
@@ -73,6 +76,12 @@ export function coreSystemsRepairProgress(progress) {
 export function coreSystemsRepairEnd() {
   return {
     type: CORE_SYSTEMS_REPAIR_END,
+  }
+}
+
+export function energyProductionAuxiliarRepaired() {
+  return {
+    type: ENERGY_PRODUCTION_AUXILIAR_REPAIRED,
   }
 }
 

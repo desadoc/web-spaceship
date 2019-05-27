@@ -12,6 +12,8 @@ import {
 
   coreSystemsRepairStart,
   coreSystemsRepairEnd,
+
+  energyProductionAuxiliarRepaired,
 } from '../../actions';
 
 export class CoreSystemsRepairService {
@@ -79,6 +81,9 @@ export class CoreSystemsRepairService {
 
     yield call(waitCondition, this.base, endCondition);
     yield put(coreSystemsRepairEnd());
+
+    yield put(energyProductionAuxiliarRepaired());
+
     yield put(systemsService().notifications.addNew('Emergency repairs of core systems finished.'));
   }
 

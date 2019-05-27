@@ -1,6 +1,9 @@
 
 import { all } from 'redux-saga/effects';
 
+import { systemsService } from './Systems';
+import { STATUS_EMERGENCY } from './Systems';
+
 import { CoreSystemsRepairService } from './Emergency/CoreSystemsRepair';
 
 export class EmergencyService {
@@ -19,7 +22,13 @@ export class EmergencyService {
   }
 
   getOptionText(systemsState) {
-    return "One or more systems need urgent action.";
+    const status = systemsService().status.getGeneralStatus(systemsState);
+
+    if (status === STATUS_EMERGENCY) {
+      return "Special actions available, urgente action is necessary.";
+    }
+
+    return "Procedures for recovering systems from failure.";
   }
 
   getLinkText(systemsState) {

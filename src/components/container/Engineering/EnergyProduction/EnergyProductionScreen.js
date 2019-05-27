@@ -15,9 +15,14 @@ class _EnergyProductionScreen extends React.Component {
       <div className="EnergyProductionScreen">
         <Screen title={this.props.title}>
           <ol>
-            <li key="energyProduction">
-              <Option title="Emergency Energy Generator">
+            <li key="emergencyGenerator">
+              <Option title="Emergency Generator">
                 {this.props.emergencyGeneratorText}
+              </Option>
+            </li>
+            <li key="auxiliarGenerator">
+              <Option title="Auxiliar Generator">
+                {this.props.auxiliarGeneratorText}
               </Option>
             </li>
           </ol>
@@ -31,6 +36,7 @@ class _EnergyProductionScreen extends React.Component {
 const mapStateToProps = (gameState) => ({
   title: systemsService().engineering.energyProduction.getTitle(gameState.systems),
   emergencyGeneratorText: systemsService().engineering.energyProduction.getEmergencyGeneratorText(gameState.systems),
+  auxiliarGeneratorText: systemsService().engineering.energyProduction.getAuxiliarGeneratorText(gameState.systems),
 });
 
 const mapDispatchToProps = (dispatch) => ({

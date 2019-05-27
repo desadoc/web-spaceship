@@ -26,11 +26,11 @@ export const initialState = {
         title: 'Engineering',
         energyProduction: {
           emergency: {
-            status: 'NORMAL',
+            status: 'STATUS_NORMAL',
             output: 0.01,
           },
           auxiliar: {
-            status: 'NEEDS_REPAIR',
+            status: 'STATUS_NEEDS_REPAIR',
             output: 0.2,
           }
         }
