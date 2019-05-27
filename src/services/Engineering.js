@@ -17,4 +17,16 @@ export class Engineering {
   reducer(systemsState, action) {
     this.energyProduction.reducer(systemsState, action);
   }
+
+  getTitle(systemsState) {
+    return "Engineering";
+  }
+
+  getOptionText(systemsState) {
+    return "Status, options and maintenance of ship's systems.";
+  }
+
+  getLinkText(systemsState) {
+    return "Details...";
+  }
 }

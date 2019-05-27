@@ -13,14 +13,28 @@ export const initialState = {
         elapsedTime: 0,
         isPaused: true,
       },
+      notifications: {
+        name: 'notifications',
+        items: [],        
+      },
       emergency: {
         name: 'emergency',
         title: 'Emergency',
       },
-      notifications: {
-        name: 'notifications',
-        items: [],        
-      }
+      engineering: {
+        name: 'engineering',
+        title: 'Engineering',
+        energyProduction: {
+          emergency: {
+            status: 'NORMAL',
+            output: 0.01,
+          },
+          auxiliar: {
+            status: 'NEEDS_REPAIR',
+            output: 0.2,
+          }
+        }
+      },
     }
   },
   uiState: {
@@ -31,6 +45,9 @@ export const initialState = {
       emergency: {
         loading: false,
       },
+      status: {
+        loading: false,
+      }
     }
   }
 };

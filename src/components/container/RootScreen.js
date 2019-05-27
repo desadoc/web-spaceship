@@ -5,7 +5,9 @@ import { userInterfaceService } from '../../services/UserInterface';
 
 import { Screen } from '../presentation/Screen';
 import { ClockOption } from './ClockOption';
+import { StatusOption } from './Status/StatusOption';
 import { EmergencyOption } from './Emergency/EmergencyOption';
+import { EngineeringOption } from './Engineering/EngineeringOption';
 import { LoadingGuard } from '../presentation/LoadingGuard';
 
 class _RootScreen extends React.Component {
@@ -19,7 +21,9 @@ class _RootScreen extends React.Component {
           <Screen title={this.props.title}>
             <ol>
               <li key="clock"><ClockOption /></li>
+              <li key="status"><StatusOption /></li>
               <li key="emergency"><EmergencyOption /></li>
+              <li key="engineering"><EngineeringOption /></li>
             </ol>
           </Screen>
         </div>

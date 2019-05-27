@@ -5,6 +5,7 @@ import { ClockService } from './Clock';
 import { EmergencyService } from './Emergency';
 import { NotificationsService } from './Notifications';
 import { Engineering } from './Engineering';
+import { StatusService } from './Status';
 
 export const STATUS = {
   // general
@@ -20,6 +21,7 @@ export const STATUS = {
 export class SystemsService {
   constructor() {
     this.clock = new ClockService();
+    this.status = new StatusService();
     this.emergency = new EmergencyService();
     this.notifications = new NotificationsService();
     this.engineering = new Engineering();
@@ -28,6 +30,7 @@ export class SystemsService {
   *main() {
     yield all([
       this.clock.main(),
+      this.status.main(),
       this.emergency.main(),
       this.notifications.main(),
       this.engineering.main(),
@@ -36,6 +39,7 @@ export class SystemsService {
   
   reducer(systemsState, action) {
     this.clock.reducer(systemsState, action);
+    this.status.reducer(systemsState, action);
     this.emergency.reducer(systemsState, action);
     this.notifications.reducer(systemsState, action);
     this.engineering.reducer(systemsState, action);
