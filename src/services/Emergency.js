@@ -1,6 +1,5 @@
 
-import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { systemsService } from './Systems';
+import { all } from 'redux-saga/effects';
 
 import { CoreSystemsRepairService } from './Emergency/CoreSystemsRepair';
 

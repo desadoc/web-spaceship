@@ -1,6 +1,5 @@
 
 import { all } from 'redux-saga/effects';
-import { timeout } from '../utils/timeout';
 
 import { ClockService } from './Clock';
 import { EmergencyService } from './Emergency';

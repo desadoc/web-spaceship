@@ -1,5 +1,5 @@
 
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { match } from '../../reducers';
 import { BaseService, waitCondition } from '../Base';

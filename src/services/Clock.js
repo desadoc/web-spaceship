@@ -24,7 +24,7 @@ export class ClockService {
 
   *_emitUpdateAction() {
     while (true) {
-      const { result, cancel } = yield race({
+      const { cancel } = yield race({
         result: call(timeout, 1000),
         cancel: take(WAIT_PAUSE),
       });

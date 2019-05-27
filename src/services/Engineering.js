@@ -1,7 +1,7 @@
 
 import { all } from 'redux-saga/effects';
 
-import { EnergyProduction } from "./engineering/EnergyProduction";
+import { EnergyProduction } from "./Engineering/EnergyProduction";
 
 export class Engineering {
   constructor() {
