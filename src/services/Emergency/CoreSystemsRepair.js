@@ -1,8 +1,7 @@
 
-import { call, select, put, takeEvery } from 'redux-saga/effects';
+import { select, put, takeEvery } from 'redux-saga/effects';
 
 import { match } from '../../reducers';
-import { BaseService, waitCondition } from '../Base';
 import { systemsService } from '../Systems';
 
 import {
@@ -17,10 +16,6 @@ import {
 } from '../../actions';
 
 export class CoreSystemsRepairService {
-  constructor() {
-    this.base = new BaseService();
-  }
-
   *main() {
     yield takeEvery(GAME_UPDATE, [this, this._update]);
   }
@@ -55,8 +50,6 @@ export class CoreSystemsRepairService {
         state.coreSystemsRepairProgress = 100;
       }
     }
-
-    this.base.processConditions(systemsState);
   }
 
   isNeedsRepairs(systemsState) {

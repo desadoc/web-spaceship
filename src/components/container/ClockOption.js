@@ -2,8 +2,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { waitStart, waitPause } from '../../actions';
-
 import { Option } from '../presentation/Option';
 import { Action } from '../presentation/Action';
 
