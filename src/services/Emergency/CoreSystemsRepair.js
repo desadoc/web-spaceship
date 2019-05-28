@@ -1,5 +1,5 @@
 
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, select, put, takeEvery } from 'redux-saga/effects';
 
 import { match } from '../../reducers';
 import { BaseService, waitCondition } from '../Base';
@@ -22,7 +22,7 @@ export class CoreSystemsRepairService {
   }
 
   *main() {
-    yield takeEvery(CORE_SYSTEMS_REPAIR_START, [this, this._repair]);
+    yield takeEvery(GAME_UPDATE, [this, this._update]);
   }
 
   reducer(systemsState, action) {
@@ -49,7 +49,7 @@ export class CoreSystemsRepairService {
     const state = systemsState.byName.emergency;
 
     if (state.coreSystemsRepairProgress != null) {
-      state.coreSystemsRepairProgress += 40;
+      state.coreSystemsRepairProgress += 14;
 
       if (state.coreSystemsRepairProgress > 100) {
         state.coreSystemsRepairProgress = 100;
@@ -75,16 +75,14 @@ export class CoreSystemsRepairService {
     return coreSystemsRepairStart();
   }
 
-  *_repair() {
-    const endCondition =
-      (systemsState) => systemsState.byName.emergency.coreSystemsRepairProgress >= 100;
+  *_update() {
+    const state = yield select();
 
-    yield call(waitCondition, this.base, endCondition);
-    yield put(coreSystemsRepairEnd());
-
-    yield put(energyProductionAuxiliarRepaired());
-
-    yield put(systemsService().notifications.addNew('Emergency repairs of core systems finished.'));
+    if (state.systems.byName.emergency.coreSystemsRepairProgress >= 100) {
+      yield put(coreSystemsRepairEnd());
+      yield put(energyProductionAuxiliarRepaired());
+      yield put(systemsService().notifications.addNew('Emergency repairs of core systems finished.'));
+    }
   }
 
   getOptionText(systemsState) {

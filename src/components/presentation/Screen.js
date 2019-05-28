@@ -48,7 +48,7 @@ export class ScreenItems extends React.Component {
 export class ScreenFooter extends React.Component {
   render() {
     const links = this.props.nav && this.props.nav.map((item, index, arr) =>
-      <span className="Screen__footerNav">
+      <span key={item[1]} className="Screen__footerNav">
         <Link to={item[1]}>{item[0]}</Link>{ ((arr.length-1) > index) ? ', ': '.'}
       </span>
     );

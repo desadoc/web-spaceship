@@ -48,6 +48,10 @@ export class SystemsService {
     this.notifications.reducer(systemsState, action);
     this.engineering.reducer(systemsState, action);
   }
+
+  getTitle(systemsState) {
+    return systemsState.byName.root.title;
+  }
 }
 
 const instance = new SystemsService();

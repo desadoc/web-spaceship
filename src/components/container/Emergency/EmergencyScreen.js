@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { systemsService } from '../../../services/Systems';
 import { userInterfaceService } from '../../../services/UserInterface';
 
 import { CoreSystemsRepairOption } from './CoreSystemsRepairOption';
@@ -26,6 +27,7 @@ class _EmergencyScreen extends React.Component {
         <div className="EmergencyScreen">
           <Screen>
             <ScreenTitle>{this.props.title}</ScreenTitle>
+            <ScreenNotifications />
 
             <ScreenItems>
               <ol>
@@ -42,12 +44,8 @@ class _EmergencyScreen extends React.Component {
 }
 
 const mapStateToProps = (gameState) => {
-  const state = gameState.systems.byName.emergency;
-  const uiState = gameState.uiState.byName.emergency;
-
   return {
-    name: state.name,
-    title: state.title,
+    title: systemsService().emergency.getTitle(gameState.systems),
     loading: userInterfaceService().isLoading(gameState.uiState, 'emergency'),
   };
 }

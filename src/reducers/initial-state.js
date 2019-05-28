@@ -54,9 +54,6 @@ export const initialState = {
       energyProduction: {
         loading: false,
       },
-      status: {
-        loading: false,
-      }
     }
   }
 };

@@ -21,6 +21,10 @@ export class EmergencyService {
     this.coreSystemsRepair.reducer(systemsState, action);
   }
 
+  getTitle(systemsState) {
+    return "Emergency";
+  }
+
   getOptionText(systemsState) {
     const status = systemsService().status.getGeneralStatus(systemsState);
 

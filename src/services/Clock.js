@@ -5,14 +5,18 @@ import { match } from '../reducers';
 
 import {
   GAME_UPDATE,
-  WAIT_START,
-  WAIT_PAUSE,
+  WAIT_START, waitStart,
+  WAIT_PAUSE, waitPause,
   gameUpdate,
   ADVANCE_CLOCK_TIME,
   advanceClockTime,
 } from '../actions';
 
 export class ClockService {
+  constructor() {
+    this._isPaused = true;
+  }
+
   *main() {
     yield takeEvery(GAME_UPDATE, [this, this._gameUpdateReducer]);
     yield takeEvery(WAIT_START, [this, this._emitUpdateAction]);
@@ -43,6 +47,18 @@ export class ClockService {
     match(action, ADVANCE_CLOCK_TIME, () => this._advanceClockTime(systemsState, action));
   }
 
+  isPaused(systemsState) {
+    return systemsState.byName.clock.isPaused;
+  }
+
+  start() {
+    return waitStart();
+  }
+
+  pause() {
+    return waitPause();
+  }
+
   _waitStart(systemsState, action) {
     systemsState.byName.clock.isPaused = false;
   }
@@ -55,7 +71,11 @@ export class ClockService {
     systemsState.byName.clock.elapsedTime += action.dt;
   }
 
-  getText(systemsState) {
+  getTitle(systemsState) {
+    return "Clock";
+  }
+
+  getOptionText(systemsState) {
     const state = systemsState.byName.clock;
 
     if (!state.reference) {

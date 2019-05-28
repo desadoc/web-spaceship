@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { systemsService } from '../../services/Systems';
 import { userInterfaceService } from '../../services/UserInterface';
 
 import {
-  Screen, ScreenTitle, ScreenNotifications, ScreenItems, ScreenFooter
+  Screen, ScreenTitle, ScreenNotifications, ScreenItems,
 } from '../presentation/Screen';
 import { ClockOption } from './ClockOption';
 import { StatusOption } from './Status/StatusOption';
@@ -42,7 +43,7 @@ class _RootScreen extends React.Component {
 
 const mapStateToProps = (gameState) => {
   return {
-    title: gameState.systems.byName.root.title,
+    title: systemsService().getTitle(gameState.systems),
     loading: userInterfaceService().isLoading(gameState.uiState, 'root'),
   };
 }

@@ -27,17 +27,17 @@ class _ClockOption extends React.Component {
 }
 
 const mapStateToProps = (gameState) => ({
-  title: gameState.systems.byName.clock.title,
-  isPaused: gameState.systems.byName.clock.isPaused,
+  title: systemsService().clock.getTitle(gameState.systems),
+  isPaused: systemsService().clock.isPaused(gameState.systems),
 
-  text: systemsService().clock.getText(gameState.systems),
+  text: systemsService().clock.getOptionText(gameState.systems),
   waitText: systemsService().clock.getWaitText(gameState.systems),
   pauseText: systemsService().clock.getPauseText(gameState.systems),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  wait: () => dispatch(waitStart()),
-  pause: () => dispatch(waitPause()),
+  wait: () => dispatch(systemsService().clock.start()),
+  pause: () => dispatch(systemsService().clock.pause()),
 });
 
 export const ClockOption = connect(
